@@ -72,17 +72,11 @@ button.gl-large-play-control {
   bottom: 5px;
   left: 5px;
   height: 34px;
-  padding-top: 0;
-  padding-right: 152px;
-  padding-bottom: 0;
-  padding-left: 126px;
+  padding: 0 152px 0 126px;
   color: #fff;
   -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
   border-radius: 4px;
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-  -o-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -144,7 +138,6 @@ button.gl-large-play-control {
   height: 12px;
   margin-top: -6px;
   -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: rgba(5, 5, 5, 0.8);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(5, 5, 5, 0.8)), to(rgba(12, 12, 12, 0.8)));
@@ -168,7 +161,6 @@ button.gl-large-play-control {
   height: 10px;
   margin-top: -5px;
   -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: rgba(80, 80, 80, 0.6);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(80, 80, 80, 0.6)), to(rgba(29, 29, 29, 0.6)));
@@ -183,7 +175,6 @@ button.gl-large-play-control {
   height: 10px;
   margin-top: -5px;
   -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: white;
   background: -webkit-gradient(linear, left top, left bottom, from(white), to(#b4b4b4));
@@ -202,7 +193,6 @@ button.gl-large-play-control {
   height: 8px;
   margin-top: -4px;
   -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: rgba(5, 5, 5, 0.8);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(5, 5, 5, 0.8)), to(rgba(12, 12, 12, 0.8)));
@@ -215,7 +205,6 @@ button.gl-large-play-control {
   height: 6px;
   margin-top: -3px;
   -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: rgba(80, 80, 80, 0.6);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(80, 80, 80, 0.6)), to(rgba(29, 29, 29, 0.6)));
@@ -231,7 +220,6 @@ button.gl-large-play-control {
   height: 12px;
   margin-top: -6px;
   -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: white;
   background: -webkit-gradient(linear, left top, left bottom, from(white), to(#b4b4b4));
