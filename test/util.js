@@ -2,9 +2,6 @@ module("util.js");
 
 test('Element.prototype.classList', function () {
   var element = document.createElement('div');
-  
-  console.log(element.classList);
-
   element.classList.add('test');
   equal('test', element.className);
 
