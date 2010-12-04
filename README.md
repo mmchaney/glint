@@ -8,6 +8,6 @@ Include `glint.js` in your page and wrap video elements the following way:
       <video>...</video>
     </div>
   
-Finally call `glint.setup`.
+Finally call setup:
 
     <script> glint.setup(); </script>	
