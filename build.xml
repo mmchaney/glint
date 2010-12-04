@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <project basedir="." default="all">
-  <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="lib/google_closure_compiler.jar"/>
+  <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" 
+    classpath="lib/google_closure_compiler.jar"/>
   <target name="all" depends="glint, min"/>
   <target name="dev" depends="glint, min, css"/>
   <target name="glint">
