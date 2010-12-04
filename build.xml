@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project basedir="." default="all">
+  <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="lib/google_closure_compiler.jar"/>
+  <target name="all" depends="glint, min"/>
+  <target name="dev" depends="glint, min, css"/>
+  <target name="glint">
+    <concat destfile="glint.js">
+      <fileset file="src/glint.js"/>
+      <fileset file="src/player.js"/>
+      <fileset file="src/util.js"/>
+    </concat>
+  </target>
+  <target name="min">
+    <jscomp compilationLevel="simple" warning="default" debug="false" output="glint-min.js">
+      <sources dir="${basedir}">
+        <file name="glint.js"/>
+      </sources>
+    </jscomp>
+  </target>
+  <target name="css" description="CSSembed">
+    <exec executable="java" output="glint.css">
+      <arg line="-jar lib/cssembed-0.3.3.jar glint-no-embed.css"/>
+    </exec>
+  </target>
+</project>
