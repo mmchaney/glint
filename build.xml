@@ -19,8 +19,8 @@
     </jscomp>
   </target>
   <target name="css" description="CSSembed">
-    <exec executable="java" output="videosketch.css">
-      <arg line="-jar lib/cssembed-0.3.3.jar videosketch.css"/>
+    <exec executable="java" output="glint.css">
+      <arg line="-jar lib/cssembed-0.3.3.jar glint-no-embed.css"/>
     </exec>
   </target>
 </project>

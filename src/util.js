@@ -74,7 +74,7 @@
   }
   
   // Element::classList (does not fully implement ES5 spec)
-  if (typeof Element !== 'undefined' && !Element.prototype.classList) {
+  if (typeof Element !== 'undefined' && !Element.hasOwnProperty.call(Element.prototype, 'classList')) {
     (function () {
       var classRE = function (token) {
             return new RegExp('(^|\\s)' + token + '(\\s|$)');
