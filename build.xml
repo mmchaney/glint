@@ -11,7 +11,7 @@
     </concat>
   </target>
   <target name="min">
-    <jscomp compilationLevel="simple" warning="default" debug="false" output="glint-min.js">
+    <jscomp compilationLevel="simple" warning="default" debug="false" output="glint.min.js">
       <sources dir="${basedir}">
         <file name="glint.js"/>
       </sources>
