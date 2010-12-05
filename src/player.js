@@ -2,7 +2,7 @@
 (function (window) {
 
   var glint = window.glint || (window.glint = {}),
-      document = window.document;  
+      document = window.document;
 
   glint.Player = function (container) {
 
@@ -19,7 +19,7 @@
 
     // Setup DOM
     // ---------
-    
+
     this.largePlayControl = glint.util.makeElement('button', {
       'class': 'gl-large-play-control'
     });
@@ -48,7 +48,7 @@
       'class': 'gl-buffer-progress-bar'
     });
     this.scrubBar.appendChild(this.bufferProgressBar);
-    
+
     this.playProgressBar = glint.util.makeElement('div', {
       'class': 'gl-play-progress-bar'
     });
@@ -65,7 +65,7 @@
       'class': 'gl-volume-control',
       'data-volume-level': 0
     });
-    this.controls.appendChild(this.volumeControl);  
+    this.controls.appendChild(this.volumeControl);
 
     this.fullscreenControl = glint.util.makeElement('button', {
       'class': 'gl-fullscreen-control'
@@ -76,7 +76,7 @@
 
     // Setup UI events
     // ---------------
-    
+
     this.largePlayControl.addEventListener('click', this.onLargePlayControlClick.bind(this), false);
     this.playPauseControl.addEventListener('click', this.onPlayPauseControlClick.bind(this), false);
 
@@ -92,68 +92,82 @@
 
     // Setup video events
     // ------------------
-    
-    this.setLoadProgress = this.setLoadProgress.bind(this);
-    this.video.addEventListener('progress', this.setLoadProgress.bind(this), false);
-    setTimeout(this.setLoadProgress, 20);
+
+    this.onProgressTimer = this.onProgressTimer.bind(this);
+    this.onProgress = this.onProgress.bind(this);
+    this.video.addEventListener('progress', this.onProgress.bind(this), false);
     this.video.addEventListener('loadedmetadata', this.onLoadedMetaData.bind(this), false);
-    
-    this.onVideoPlayPause = this.onVideoPlayPause.bind(this);    
+
+    this.onVideoPlayPause = this.onVideoPlayPause.bind(this);
     this.video.addEventListener('play', this.onVideoPlayPause, false);
     this.video.addEventListener('pause', this.onVideoPlayPause, false);
-    
+
     this.video.addEventListener('timeupdate', this.onVideoTimeUpdate.bind(this), false);
     this.video.addEventListener('durationchange', this.onVideoTimeUpdate.bind(this), false);
     this.video.addEventListener('volumechange', this.setVolumeControl.bind(this), false);
-    
+
     // Finalize setup
     // --------------
-    
+
     this.setVolumeControl();
+    setTimeout(this.onProgressTimer, 200)
 
   };
 
   glint.Player.prototype = {
-    
+
     setContainerSize: function () {
       var videoBounds = this.video.getBoundingClientRect();
       this.container.style.width = (this.video.width || this.video.videoWidth || videoBounds.width) + 'px';
-      this.container.style.height = (this.video.height || this.video.videoHeight || videoBounds.height) + 'px';      
+      this.container.style.height = (this.video.height || this.video.videoHeight || videoBounds.height) + 'px';
     },
-      
+
     setLoadingState: function () {
       if (this.video.readyState > 1 || this.video.preload && this.video.preload === 'none') {
         this.container.classList.remove('gl-loading');
       } else {
-        this.container.classList.add('gl-loading');        
+        this.container.classList.add('gl-loading');
       }
-    }, 
-    
-    setLoadProgress: function () {
-      if (this.video.buffered && this.video.buffered.length >= 1) {
-        this.bufferProgressBar.style.width = 
-          Math.min(this.video.buffered.end(0) / this.video.duration * 100, 100) + '%';
-        if (this.video.buffered.end(0) !== this.video.duration) {
-          setTimeout(this.setLoadProgress, 20);
-        }
-      } else {
-        this.bufferProgressBar.style.width = '100%'; 
-      }    
-    }, 
+    },
 
-    setVolumeControl: function () {      
+    onProgress: function (event) {
+      this.progressEventAvailable = true;
+      if (event.loaded) {
+        this.setProgress(event.loaded / event.total * 100);
+      } else {
+        this.setProgress(this.getBufferedPercent());
+      }
+    },
+
+    onProgressTimer: function () {
+      this.setProgress(this.getBufferedPercent());
+      if (!this.progressEventAvailable) {
+        setTimeout(this.onProgressTimer, 200);
+      }
+    },
+
+    getBufferedPercent: function () {
+      return (this.video.buffered && this.video.buffered.length > 0) ?
+        Math.min(this.video.buffered.end(0) / this.video.duration * 100, 100) : 100;
+    },
+
+    setProgress: function (percent) {
+      this.bufferProgressBar.style.width = percent + '%';
+    },
+
+    setVolumeControl: function () {
       if (this.video.muted) {
         this.volumeGrabber.style.width = '0%';
       } else {
         this.volumeGrabber.style.width = this.video.volume * 100 + '%';
       }
-      
+
       this.volumeControl.setAttribute('data-volume-level', this.video.muted ? -1 : Math.round(this.video.volume));
-    },       
+    },
 
     // UI event handlers
     // -----------------
-    
+
     onLargePlayControlClick: function () {
       if (this.video.readyState > 0 || this.video.preload && this.video.preload === 'none') {
         this.video.play();
@@ -172,12 +186,16 @@
 
     onScrubBarMouseEvent: function (event) {
       if (event.which === 3) {
-        return; 
+        return;
       }
-      
+
       event.preventDefault();
 
-      this.video.currentTime = glint.util.localCoordinates(event, this.scrubBar).x * this.video.duration;
+      try {
+        this.video.currentTime = glint.util.localCoordinates(event, this.scrubBar).x * this.video.duration;
+      } catch (error) {
+        /* Video not ready */
+      }
 
       if (event.type === 'mousedown') {
         document.addEventListener('mousemove', this.onScrubBarMouseEvent, false);
@@ -195,9 +213,9 @@
 
     onVolumeRangeMouseEvent: function (event) {
       if (event.which === 3) {
-        return; 
+        return;
       }
-            
+
       event.preventDefault();
 
       this.video.muted = false;
@@ -218,12 +236,13 @@
 
     // Video event handlers
     // --------------------
-    
+
     onLoadedMetaData: function () {
       this.setContainerSize();
       this.setLoadingState();
+      //setTimeout(this.setLoadProgress, 20);
     },
-    
+
     onVideoPlayPause: function () {
       if (this.video.paused) {
         this.container.classList.remove('gl-playing');
