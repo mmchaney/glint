@@ -9,7 +9,6 @@
     this.container = container;
     this.video = container.querySelector('video');
 
-    this.setLoadingState();
     this.setContainerSize();
 
     // The resizeEvent is dispatched on the window as soon as the player
@@ -24,6 +23,11 @@
       'class': 'gl-large-play-control'
     });
     this.container.appendChild(this.largePlayControl);
+    
+    this.spinner = glint.util.makeElement('div', {
+      'class': 'gl-spinner'
+    });
+    this.container.appendChild(this.spinner);
 
     this.controls = glint.util.makeElement('div', {
       'class': 'gl-controls'
@@ -98,6 +102,20 @@
     this.video.addEventListener('progress', this.onProgress.bind(this), false);
     this.video.addEventListener('loadedmetadata', this.onLoadedMetaData.bind(this), false);
 
+    this.activateLoading = this.setLoading.bind(this, true);
+    this.video.addEventListener('loadstart', this.activateLoading, false);
+    this.video.addEventListener('waiting', this.activateLoading, false);    
+    this.video.addEventListener('seeking', this.activateLoading, false);    
+    this.video.addEventListener('stalled', this.activateLoading, false);    
+
+    this.deactivateLoading = this.setLoading.bind(this, false);    
+    this.video.addEventListener('loadeddata', this.deactivateLoading, false);
+    this.video.addEventListener('canplaythrough', this.deactivateLoading, false);
+    this.video.addEventListener('playing', this.deactivateLoading, false);
+    this.video.addEventListener('timeupdate', this.deactivateLoading, false);
+    this.video.addEventListener('seeked', this.deactivateLoading, false);
+    this.video.addEventListener('canplay', this.deactivateLoading, false);
+
     this.onVideoPlayPause = this.onVideoPlayPause.bind(this);
     this.video.addEventListener('play', this.onVideoPlayPause, false);
     this.video.addEventListener('pause', this.onVideoPlayPause, false);
@@ -109,8 +127,9 @@
     // Finalize setup
     // --------------
 
+    this.setLoading(true);
     this.setVolumeControl();
-    setTimeout(this.onProgressTimer, 200)
+    setTimeout(this.onProgressTimer, 200);
 
   };
 
@@ -122,11 +141,11 @@
       this.container.style.height = (this.video.height || this.video.videoHeight || videoBounds.height) + 'px';
     },
 
-    setLoadingState: function () {
-      if (this.video.readyState > 1 || this.video.preload && this.video.preload === 'none') {
-        this.container.classList.remove('gl-loading');
-      } else {
-        this.container.classList.add('gl-loading');
+    setLoading: function (value) {
+      // this.video.readyState > 1 || this.video.preload && this.video.preload === 'none'
+      if (this.loading !== value) {
+        this.container.classList.toggle('gl-loading');
+        this.loading = value;
       }
     },
 
@@ -140,8 +159,9 @@
     },
 
     onProgressTimer: function () {
-      this.setProgress(this.getBufferedPercent());
-      if (!this.progressEventAvailable) {
+      var progress = this.getBufferedPercent();
+      this.setProgress(progress);
+      if (!this.progressEventAvailable && progress !== 100) {
         setTimeout(this.onProgressTimer, 200);
       }
     },
@@ -170,6 +190,7 @@
 
     onLargePlayControlClick: function () {
       if (this.video.readyState > 0 || this.video.preload && this.video.preload === 'none') {
+        this.largePlayControl.style.display = 'none';
         this.video.play();
       }
     },
@@ -239,8 +260,6 @@
 
     onLoadedMetaData: function () {
       this.setContainerSize();
-      this.setLoadingState();
-      //setTimeout(this.setLoadProgress, 20);
     },
 
     onVideoPlayPause: function () {
