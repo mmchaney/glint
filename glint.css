@@ -144,15 +144,6 @@ button.gl-large-play-control {
   background: -moz-linear-gradient(top, rgba(5, 5, 5, 0.8), rgba(12, 12, 12, 0.8)); }
 
 .gl-buffer-progress-bar {
-  -webkit-transition-property: width;
-  -webkit-transition-duration: 200ms;
-  -webkit-transition-timing-function: ease-in-out;
-  -moz-transition-property: width;
-  -moz-transition-duration: 200ms;
-  -moz-transition-timing-function: ease-in-out;
-  -o-transition-property: width;
-  -o-transition-duration: 200ms;
-  -o-transition-timing-function: ease-in-out;
   pointer-events: none;
   min-width: 6px;
   position: absolute;
