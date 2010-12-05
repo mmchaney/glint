@@ -116,8 +116,7 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
 
     this.activateLoading = this.setLoading.bind(this, true);
     this.video.addEventListener('loadstart', this.activateLoading, false);
-    this.video.addEventListener('waiting', this.activateLoading, false);    
-    this.video.addEventListener('seeking', this.activateLoading, false);    
+    this.video.addEventListener('waiting', this.activateLoading, false);  
     this.video.addEventListener('stalled', this.activateLoading, false);    
 
     this.deactivateLoading = this.setLoading.bind(this, false);    
@@ -125,8 +124,6 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
     this.video.addEventListener('canplaythrough', this.deactivateLoading, false);
     this.video.addEventListener('playing', this.deactivateLoading, false);
     this.video.addEventListener('timeupdate', this.deactivateLoading, false);
-    this.video.addEventListener('seeked', this.deactivateLoading, false);
-    this.video.addEventListener('canplay', this.deactivateLoading, false);
 
     this.onVideoPlayPause = this.onVideoPlayPause.bind(this);
     this.video.addEventListener('play', this.onVideoPlayPause, false);
@@ -180,7 +177,7 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
 
     getBufferedPercent: function () {
       return (this.video.buffered && this.video.buffered.length > 0) ?
-        Math.min(this.video.buffered.end(0) / this.video.duration * 100, 100) : 100;
+        Math.min(this.video.buffered.end(0) / this.video.duration * 100, 100) : 0;
     },
 
     setProgress: function (percent) {

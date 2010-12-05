@@ -122,12 +122,10 @@ button.gl-large-play-control {
 .gl-time-label {
   left: 34px;
   width: 80px;
-  font-size: 12px;
-  font-weight: normal;
   text-align: center;
   line-height: 26px;
   vertical-align: middle;
-  font-family: Helvetica, Arial, sans-serif; }
+  font: 12px/26px Helvetica, Arial, sans-serif; }
 
 .gl-scrub-bar {
   position: relative;
