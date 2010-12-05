@@ -1,5 +1,5 @@
 /*
- * Glint: A tiny HTML5 video player for FF4/WebKit/IE9
+ * Glint: A tiny HTML5 video player for modern browsers
  * 2010-11-21
  *
  * By Markus Messner-Chaney, http://markusmessnerchaney.com
