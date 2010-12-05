@@ -135,8 +135,7 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
 
     // Finalize setup
     // --------------
-
-    this.setLoading(true);
+    
     this.setVolumeControl();
     setTimeout(this.onProgressTimer, 200);
 

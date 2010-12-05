@@ -123,8 +123,7 @@
 
     // Finalize setup
     // --------------
-
-    this.setLoading(true);
+    
     this.setVolumeControl();
     setTimeout(this.onProgressTimer, 200);
 
