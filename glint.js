@@ -16,10 +16,10 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
   var glint = window.glint || (window.glint = {}),
       document = window.document;
 
-  glint.Player = function (container) {
+  glint.Player = function (video) {
 
-    this.container = container;
-    this.video = container.querySelector('video');
+    this.video = (video.play) ? video : document.querySelector(video);
+    this.container = this.video.parentNode;    
 
     this.setContainerSize();
 
@@ -313,11 +313,8 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
 
   };
 
-  glint.setup = function () {
-    var playerContainer = Array.prototype.slice.call(document.querySelectorAll('.glint-video-player'));
-    playerContainer.forEach(function (playerContainer) {
-      return new glint.Player(playerContainer);
-    });
+  glint.setup = function (video) {
+    return new glint.Player(video);
   };
 
 }(this));
