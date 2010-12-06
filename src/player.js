@@ -142,10 +142,7 @@
     // Fades in notice after adding specified class
     showNotice: function (cssClass) {
       this.hideNotice();
-      this.notice.classList.remove(this.noticeCssClass);
       this.notice.classList.add('show');
-      this.notice.classList.add(cssClass);
-      this.noticeCssClass = cssClass;
       this.noticeTimer = setTimeout(this.hideNotice, 400);
     },
       
@@ -286,11 +283,11 @@
       if (this.video.paused) {
         this.container.classList.remove('gl-playing');
         this.container.classList.add('gl-paused');
-        this.showNotice('pause');
+        this.showNotice();
       } else {
         this.container.classList.remove('gl-paused');
         this.container.classList.add('gl-playing');
-        this.showNotice('play');
+        this.showNotice();
       }
     },
 
