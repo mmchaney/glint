@@ -121,7 +121,7 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
 
     this.activateLoading = this.setLoading.bind(this, true);
     this.video.addEventListener('loadstart', this.setLoading.bind(this, true, 'loadstart'), false);
-    this.video.addEventListener('waiting', this.setLoading.bind(this, true, 'waiting'), false);  
+    // this.video.addEventListener('waiting', this.setLoading.bind(this, true, 'waiting'), false);  
     this.video.addEventListener('stalled', this.setLoading.bind(this, true, 'stalled'), false);    
 
     this.deactivateLoading = this.setLoading.bind(this, false);    
