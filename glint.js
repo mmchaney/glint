@@ -115,15 +115,15 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
     this.video.addEventListener('loadedmetadata', this.onLoadedMetaData.bind(this), false);
 
     this.activateLoading = this.setLoading.bind(this, true);
-    this.video.addEventListener('loadstart', this.activateLoading, false);
-    this.video.addEventListener('waiting', this.activateLoading, false);  
-    this.video.addEventListener('stalled', this.activateLoading, false);    
+    this.video.addEventListener('loadstart', this.setLoading.bind(this, true, 'loadstart'), false);
+    this.video.addEventListener('waiting', this.setLoading.bind(this, true, 'waiting'), false);  
+    this.video.addEventListener('stalled', this.setLoading.bind(this, true, 'stalled'), false);    
 
     this.deactivateLoading = this.setLoading.bind(this, false);    
-    this.video.addEventListener('loadeddata', this.deactivateLoading, false);
-    this.video.addEventListener('canplaythrough', this.deactivateLoading, false);
-    this.video.addEventListener('playing', this.deactivateLoading, false);
-    this.video.addEventListener('timeupdate', this.deactivateLoading, false);
+    this.video.addEventListener('loadeddata', this.setLoading.bind(this, false, 'loadeddata'), false);
+    this.video.addEventListener('canplaythrough', this.setLoading.bind(this, false, 'canplaythrough'), false);
+    this.video.addEventListener('playing', this.setLoading.bind(this, false, 'playing'), false);
+    this.video.addEventListener('timeupdate', this.setLoading.bind(this, false, 'timeupdate'), false);
 
     this.onVideoPlayPause = this.onVideoPlayPause.bind(this);
     this.video.addEventListener('play', this.onVideoPlayPause, false);
@@ -150,9 +150,10 @@ bitwise: true, regexp: true, newcap: true, immed: true, maxlen: 120, indent: 2 *
     },
 
     setLoading: function (value) {
-      // this.video.readyState > 1 || this.video.preload && this.video.preload === 'none'
+      var action;
       if (this.loading !== value) {
-        this.container.classList.toggle('gl-loading');
+        action = value ? 'add' : 'remove';
+        this.container.classList[action]('gl-loading');
         this.loading = value;
       }
     },
