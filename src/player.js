@@ -28,6 +28,11 @@
       'class': 'gl-spinner'
     });
     this.container.appendChild(this.spinner);
+        
+    this.notice = glint.util.makeElement('div', {
+      'class': 'gl-notice'
+    });
+    this.container.appendChild(this.notice);
 
     this.controls = glint.util.makeElement('div', {
       'class': 'gl-controls'
@@ -124,12 +129,30 @@
     // Finalize setup
     // --------------
     
+    this.showNotice = this.showNotice.bind(this);
+    this.hideNotice = this.hideNotice.bind(this);
+    
     this.setVolumeControl();
     setTimeout(this.onProgressTimer, 200);
 
   };
 
   glint.Player.prototype = {
+    
+    // Fades in notice after adding specified class
+    showNotice: function (cssClass) {
+      this.hideNotice();
+      this.notice.classList.remove(this.noticeCssClass);
+      this.notice.classList.add('show');
+      this.notice.classList.add(cssClass);
+      this.noticeCssClass = cssClass;
+      this.noticeTimer = setTimeout(this.hideNotice, 400);
+    },
+      
+    hideNotice: function () {
+      clearTimeout(this.noticeTimer);
+      this.notice.classList.remove('show');
+    },
 
     setContainerSize: function () {
       var videoBounds = this.video.getBoundingClientRect();
@@ -263,9 +286,11 @@
       if (this.video.paused) {
         this.container.classList.remove('gl-playing');
         this.container.classList.add('gl-paused');
+        this.showNotice('pause');
       } else {
         this.container.classList.remove('gl-paused');
         this.container.classList.add('gl-playing');
+        this.showNotice('play');
       }
     },
 
