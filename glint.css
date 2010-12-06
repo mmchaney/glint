@@ -78,8 +78,8 @@ button.gl-large-play-control {
   height: 34px;
   padding: 0 152px 0 126px;
   color: #fff;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   -moz-box-sizing: border-box;
@@ -94,10 +94,10 @@ button.gl-large-play-control {
   opacity: 1; }
 
 .gl-fullscreen .gl-controls {
-  width: 600px;
+  width: 838px;
   left: 50%;
   right: auto;
-  margin-left: -300px; }
+  margin-left: -419px; }
 
 .gl-controls > * {
   position: absolute;
